@@ -38,6 +38,12 @@ function Header() {
     }
   }, []);
 
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  
+  const handleCategoryClick = () => {
+    setShowCategoryDropdown(!showCategoryDropdown);
+  };
+  
   return (
     <header className='w-full'>
       <div className='flex flex-row justify-between items-center p-8 py-2 bg-white'>
@@ -61,15 +67,20 @@ function Header() {
           </button>
         </div>
       </div>
-      <nav className='flex flex-row justify-between items-center px-8 pb-2 bg-white'>
-        <ul className='flex flex-row gap-16 relative'>
+      <nav className='flex flex-col justify-between items-center px-8 pb-2 bg-white relative'>
+        <ul className='flex flex-row gap-16 relative w-full'>
           {['Home', 'Products', 'Categories', 'Discounts', 'Contact'].map((item, index) => (
             <li
               key={index}
               className={`text-lg font-semibold cursor-pointer pb-1 ${
                 page.toLowerCase() === item.toLowerCase() ? 'text-green active-nav-item' : ''
               }`}
-              onClick={(e) => handlePageClick(item, e)}
+              onClick={(e) => {
+                handlePageClick(item, e);
+                if (item === 'Categories') {
+                  handleCategoryClick();
+                }
+              }}
             >
               {item}
             </li>
@@ -82,8 +93,47 @@ function Header() {
             }}
           ></div>
         </ul>
+        
+        {showCategoryDropdown && (
+          <div 
+            className="absolute left-0 top-full w-full mt-0 pt-4 pb-6 px-8 bg-white shadow-md rounded-b-lg z-50 animate-fadeIn"
+            style={{ animation: 'fadeIn 0.3s ease-in-out' }}
+          >
+            <div className="grid grid-cols-5 gap-6">
+              <CategoryGroup title="Living Room" items={["Sofas", "Coffee Tables", "TV Stands", "Bookshelves", "Recliners"]} />
+              <CategoryGroup title="Bedroom" items={["Beds", "Nightstands", "Dressers", "Wardrobes", "Mattresses"]} />
+              <CategoryGroup title="Kitchen & Dining" items={["Dining Tables", "Chairs", "Bar Stools", "Buffets", "Kitchen Islands"]} />
+              <CategoryGroup title="Office" items={["Desks", "Office Chairs", "Filing Cabinets", "Bookcases", "Desk Lamps"]} />
+              <CategoryGroup title="Decor" items={["Lighting", "Rugs", "Wall Art", "Pillows", "Plants"]} />
+            </div>
+          </div>
+        )}
       </nav>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-in-out;
+        }
+      `}</style>
     </header>
+  );
+}
+
+function CategoryGroup({ title, items }) {
+  return (
+    <div>
+      <h3 className="font-bold text-green mb-2">{title}</h3>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index} className="text-gray-700 hover:text-green cursor-pointer py-1 transition-colors">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
