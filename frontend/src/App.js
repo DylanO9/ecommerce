@@ -3,6 +3,8 @@ import couch from './couch.png';
 import plant from './plant.png';
 import chair from './blue-chair.png';
 import light from './antique-light.png';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function App() {
   return (
@@ -14,11 +16,73 @@ function App() {
 }
 
 function Header() {
+  const [page, setPage] = useState('home');
+
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  
+  const handlePageClick = (item, event) => {
+    const element = event.currentTarget;
+    const { offsetLeft, offsetWidth } = element;
+    setUnderlineStyle({ left: offsetLeft, width: offsetWidth });
+    setPage(item.toLowerCase());
+  };
+  
+  useEffect(() => {
+    // Initialize underline position when component mounts
+    const activeElement = document.querySelector('.active-nav-item');
+    if (activeElement) {
+      setUnderlineStyle({
+        left: activeElement.offsetLeft,
+        width: activeElement.offsetWidth
+      });
+    }
+  }, []);
+
   return (
-    <header className='w-full border-b-2'>
-      <h1 className='text-3xl font-bold text-center py-4'>
-        Welcome to the React App
-      </h1>
+    <header className='w-full'>
+      <div className='flex flex-row justify-between items-center p-8 py-2 bg-white'>
+        <h1 className='text-3xl font-bold'>Furniture Store</h1>
+        <div id='search-bar' className='flex-grow flex flex-row items-center justify-center mx-4'>
+          <input
+            type='text'
+            placeholder='Search for furniture, decor, and more...'
+            className='w-1/2 border border-gray-300 rounded-l px-4 py-2'
+          />
+          <button className='bg-green text-white rounded-r px-4 py-2'>
+            Search
+          </button>
+        </div>
+        <div className='flex flex-row items-center gap-4'>
+          <button className='bg-green text-white rounded px-4 py-2'>
+            Sign Up
+          </button>
+          <button className='bg-green text-white rounded px-4 py-2'>
+            Log In
+          </button>
+        </div>
+      </div>
+      <nav className='flex flex-row justify-between items-center px-8 pb-2 bg-white'>
+        <ul className='flex flex-row gap-16 relative'>
+          {['Home', 'Products', 'Categories', 'Discounts', 'Contact'].map((item, index) => (
+            <li
+              key={index}
+              className={`text-lg font-semibold cursor-pointer pb-1 ${
+                page.toLowerCase() === item.toLowerCase() ? 'text-green active-nav-item' : ''
+              }`}
+              onClick={(e) => handlePageClick(item, e)}
+            >
+              {item}
+            </li>
+          ))}
+          <div 
+            className="absolute bottom-0 h-1 bg-green transition-all duration-300 ease-in-out"
+            style={{ 
+              left: `${underlineStyle.left}px`, 
+              width: `${underlineStyle.width}px` 
+            }}
+          ></div>
+        </ul>
+      </nav>
     </header>
   );
 }
