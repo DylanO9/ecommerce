@@ -7,6 +7,14 @@ export default function Header() {
   
     const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
     
+    const debounce = (func, delay) => {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+      };
+    };
+
     const handlePageClick = (item, event) => {
       const element = event.currentTarget;
       const { offsetLeft, offsetWidth } = element;
@@ -15,14 +23,18 @@ export default function Header() {
     };
     
     useEffect(() => {
-      // Initialize underline position when component mounts
-      const activeElement = document.querySelector('.active-nav-item');
-      if (activeElement) {
-        setUnderlineStyle({
-          left: activeElement.offsetLeft,
-          width: activeElement.offsetWidth
-        });
-      }
+      const handleResize = debounce(() => {
+        const activeElement = document.querySelector('.active-nav-item');
+        if (activeElement) {
+          setUnderlineStyle({
+            left: activeElement.offsetLeft,
+            width: activeElement.offsetWidth
+          });
+        }
+      }, 100);
+      
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }, []);
   
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
