@@ -88,9 +88,12 @@ export default function SignIn() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-green hover:text-green-500">
+                {/* <a href="#" className="font-medium text-green hover:text-green-500">
                   Forgot your password?
-                </a>
+                </a> */}
+                <span className="font-medium text-green hover:text-green-500 cursor-pointer">
+                  Forgot your password?
+                </span>
               </div>
             </div>
 
