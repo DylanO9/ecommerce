@@ -3,8 +3,10 @@ import couch from '../../assets/couch.png';
 
 export default function HeroSection() {
     return (
-      <div className='h-2/3 w-full flex flex-row items-center justify-center bg-custom-landing relative'>
-        <div className='text-start'>
+      <div id='landing-chair' className='h-2/3 w-full flex flex-row items-center justify-center bg-custom-landing relative'>
+        {/* circle */}
+        <div className='circle'></div>
+        <div className='text-start z-10'>
           <h1 className='text-5xl font-bold mb-4'>Best Quality Products</h1>
           <h2 className='text-5xl font-bold mb-4'>
             Discover our amazing collection
