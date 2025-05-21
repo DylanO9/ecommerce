@@ -23,15 +23,3 @@ This is a **frontend-only** eCommerce web application built for demo and design 
 
 ---
 
-## 📦 Folder Structure
-
-```bash
-📁 ecommerce-frontend/
-├── public/
-├── src/
-│   ├── components/       # Navbar, ProductCard, etc.
-│   ├── pages/            # LandingPage, Login, Signup, Catalog
-│   ├── data/             # Sample/mock product data
-│   └── styles/           # Tailwind config or global CSS
-├── package.json
-└── README.md
