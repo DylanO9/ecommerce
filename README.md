@@ -16,9 +16,8 @@ This is a **frontend-only** eCommerce web application built for demo and design 
 
 ## 🧪 Tech Stack
 
-- **React** (or Next.js / Vite — depending on your setup)
-- **Tailwind CSS** (or your preferred styling method)
-- **React Router** (if used for navigation)
+- **React**
+- **Tailwind CSS**
 - **Mock Data**: Products defined in a local JavaScript or JSON file
 
 ---
